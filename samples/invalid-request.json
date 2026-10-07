@@ -1,0 +1,5 @@
+{
+  "customer": { "name": "", "email": "not-an-email" },
+  "property": { "address": "1 Hay St", "city": "Perth" },
+  "description": "Cracks"
+}

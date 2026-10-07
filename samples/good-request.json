@@ -1,0 +1,16 @@
+{
+  "externalId": "web-form-10231",
+  "customer": {
+    "name": "Jane Lee",
+    "email": "jane.lee@example.com",
+    "phone": "0412 345 678",
+    "company": "Lee Property Group"
+  },
+  "property": {
+    "address": "12 Collins St",
+    "city": "Melbourne",
+    "siteType": "Office building car park"
+  },
+  "description": "Walked the ground floor car park with the building manager. There is a crack running about 14 metres along bay 3 near the ramp. Two tiles are broken at the lift lobby entry and are a trip risk. The expansion joint at the entry ramp has failed for roughly 8 metres.",
+  "photos": []
+}

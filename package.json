@@ -1,0 +1,14 @@
+{
+  "name": "inspection-quote-automation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "n8n workflow: inspection request -> AI-drafted scope -> validated pricing -> human approval -> Pipedrive deal",
+  "scripts": {
+    "build": "node build/build-workflows.js",
+    "test": "node --test test/*.test.js",
+    "check": "npm run build && npm test",
+    "send:sample": "node scripts/send-sample.js"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}

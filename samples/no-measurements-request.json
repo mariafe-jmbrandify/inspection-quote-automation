@@ -1,0 +1,5 @@
+{
+  "customer": { "name": "Sam Patel", "email": "sam@example.com" },
+  "property": { "address": "4 Eagle St", "city": "Brisbane" },
+  "description": "Tenant reported a trip hazard on the footpath outside the main entrance. Pavers near the bike rack have sunk and need resetting."
+}

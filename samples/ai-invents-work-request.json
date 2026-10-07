@@ -1,0 +1,5 @@
+{
+  "customer": { "name": "Test Invented Code", "email": "qa@example.com" },
+  "property": { "address": "88 George St", "city": "Sydney" },
+  "description": "There is a crack about 6 metres long in the loading dock slab. [[mock:invented-code]]"
+}
