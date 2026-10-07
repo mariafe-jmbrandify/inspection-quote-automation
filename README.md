@@ -105,6 +105,10 @@ npm test
 
 The full workflow was also run end to end in n8n 2.42, in mock and live mode against the mock APIs. The Pipedrive integration was also tested against a real Pipedrive account on 7 Oct 2026: the workflow searched for the reference, created deal "[INSP-C4E14E] 12 Collins St, Melbourne" (A$871 ex GST) and added the quote note via the v1 API. See [docs/TEST-LOG.md](docs/TEST-LOG.md).
 
+![Deal created in Pipedrive](docs/screenshots/pipedrive-deal.png)
+
+![Approval outcome for the live run: deal created](docs/screenshots/pipedrive-note.png)
+
 ## Limitations
 
 - Rates in `config.js` are placeholders.

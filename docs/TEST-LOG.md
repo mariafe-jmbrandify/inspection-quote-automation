@@ -34,6 +34,14 @@ Run on 7 Oct 2026 with `crmMode: 'live'` and a real Pipedrive API token in n8n C
 |---|---|
 | Approve | Searched Pipedrive for the reference, created deal "[INSP-C4E14E] 12 Collins St, Melbourne" (A$871 ex GST) and added the quote note to it |
 
+The deal in the Pipedrive pipeline (the ₱ column total is Pipedrive converting to the account's default currency; the deal itself is A$871):
+
+![Deal created in Pipedrive](screenshots/pipedrive-deal.png)
+
+The outcome message posted after approval (A$958.10 is the total incl. GST):
+
+![Approval outcome for the live run: deal created](screenshots/pipedrive-note.png)
+
 ## Found and fixed during testing
 
 - **Duplicate blocking only stored the first key.** Found when a repeated test request was accepted instead of blocked. n8n saves static data only when a top-level property is replaced; the original code added keys inside the existing `seen` object, so every key after the first was silently dropped. Fixed by building a new object and assigning `store.seen` each run; regression test added. Re-verified in n8n: three different requests, then each resent, all blocked as duplicates.
