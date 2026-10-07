@@ -63,6 +63,7 @@ function getConfig() {
       JOINT_RESEAL: { label: 'Expansion joint reseal', unit: 'lm', rate: 22, maxQty: 1000 },
       PRESSURE_CLEAN: { label: 'Pressure clean', unit: 'm2', rate: 6, maxQty: 5000 },
       LINE_MARKING: { label: 'Line marking', unit: 'lm', rate: 8, maxQty: 2000 },
+      GRAFFITI_REMOVAL: { label: 'Graffiti removal', unit: 'm2', rate: 12, maxQty: 500 },
       SITE_INSPECTION: { label: 'Site inspection and report', unit: 'each', rate: 250, maxQty: 5 },
     },
   };

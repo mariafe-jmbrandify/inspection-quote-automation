@@ -169,6 +169,24 @@ test('fractional quantities do not create floating-point cents', () => {
   assert.equal(priceQuote({ lineItems: [{ code: 'CONC_PATCH', quantity: 60 }] }, config).highValue, true);
 });
 
+test('GRAFFITI_REMOVAL is in the catalog, prompt, validator and pricing', () => {
+  assert.deepEqual(config.catalog.GRAFFITI_REMOVAL, { label: 'Graffiti removal', unit: 'm2', rate: 12, maxQty: 500 });
+  const b = goodBody();
+  b.description += ' Graffiti covers about 40 square metres of the stairwell wall.';
+  const { request } = validateRequest(b, config);
+  assert.ok(buildAiPrompt(request, config).system.includes('GRAFFITI_REMOVAL'));
+  const ev = 'Graffiti covers about 40 square metres of the stairwell wall.';
+  const run = (quantity) =>
+    validateAiOutput(ok({ summary: '', confidence: 0.9, assumptions: [], lineItems: [{ code: 'GRAFFITI_REMOVAL', quantity, evidence: ev }] }), request, config);
+  assert.equal(run(40).ok, true);
+  assert.equal(run(12.5).ok, true, 'm2 allows fractional quantities');
+  assert.ok(run(501).errors[0].includes('sanity cap'));
+  const q = priceQuote({ lineItems: [{ code: 'GRAFFITI_REMOVAL', quantity: 40 }] }, config);
+  assert.equal(q.lines[0].lineTotal, 480); // 40*12
+  assert.equal(q.subtotal, 480);
+  assert.equal(q.total, 528);
+});
+
 // ---------- approval ----------
 test('approval decisions fail closed', () => {
   const t = generateToken();
