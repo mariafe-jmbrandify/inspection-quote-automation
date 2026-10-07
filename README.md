@@ -101,7 +101,7 @@ To test the live HTTP paths without real accounts, run `node scripts/mock-apis.j
 npm test
 ```
 
-34 tests cover validation, dedup, AI-output checks (bad JSON, invented codes, ungrounded evidence, quantity caps, truncation), pricing and rounding, approval tokens, CRM dedup and HTML escaping, plus checks that the built workflows are current, every Code node compiles, every branch is wired, and no secrets are in the export.
+35 tests cover validation, dedup, AI-output checks (bad JSON, invented codes, ungrounded evidence, quantity caps, truncation), pricing and rounding, approval tokens, CRM dedup and HTML escaping, plus checks that the built workflows are current, every Code node compiles, every branch is wired, and no secrets are in the export.
 
 The full workflow was also run end to end in n8n 2.42, in mock and live mode against the mock APIs. See [docs/TEST-LOG.md](docs/TEST-LOG.md).
 
@@ -109,5 +109,5 @@ The full workflow was also run end to end in n8n 2.42, in mock and live mode aga
 
 - Rates in `config.js` are placeholders.
 - The mock AI is keyword-based and only exists for demos and tests. For example, it does not read "two tiles" as 2, so it adds an assumption warning (which also shows the warning system working).
-- Static-data dedup suits a single n8n instance. For queue mode with several workers, move it to a database table with a unique key.
+- Intake dedup uses n8n workflow static data, which is last-write-wins: if two requests arrive in the same instant, one key can be lost and a repeat of it is not blocked at intake. The Pipedrive search before every create still prevents a duplicate deal. For high volume or several n8n workers, move the dedup keys to a database table with a unique constraint.
 - The customer-facing quote PDF/email is out of scope; the approved quote is stored as a Pipedrive note.

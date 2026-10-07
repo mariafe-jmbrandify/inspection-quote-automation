@@ -225,3 +225,14 @@ test('instruction-like customer text is flagged to the reviewer', () => {
   assert.ok(v.warnings.some((w) => w.includes('prompt injection')));
   assert.equal(validateRequest(goodBody(), config).request.flags.length, 0);
 });
+
+test('dedup replaces store.seen with a new object each call (n8n only persists top-level changes)', () => {
+  const store = {};
+  const t0 = Date.UTC(2026, 0, 1);
+  checkDuplicate(store, 'k1', t0, 72);
+  const first = store.seen;
+  checkDuplicate(store, 'k2', t0 + 1, 72);
+  assert.notEqual(store.seen, first, 'store.seen must be reassigned, not mutated');
+  assert.deepEqual(Object.keys(store.seen).sort(), ['k1', 'k2']);
+  assert.deepEqual(Object.keys(first), ['k1'], 'previous object left untouched');
+});

@@ -9,30 +9,35 @@
 const MAX_KEYS = 5000;
 
 function checkDuplicate(store, key, nowMs, windowHours) {
-  if (!store.seen || typeof store.seen !== 'object') store.seen = {};
+  // Work on a copy and assign it back at the end. n8n only saves static data
+  // when a top-level property is replaced; adding a key inside the existing
+  // object is NOT detected, so the new key would silently be lost.
+  const seen = store.seen && typeof store.seen === 'object' ? { ...store.seen } : {};
   const windowMs = windowHours * 3600 * 1000;
 
   // Prune expired keys so the store cannot grow forever.
-  for (const [k, ts] of Object.entries(store.seen)) {
-    if (nowMs - ts > windowMs) delete store.seen[k];
+  for (const [k, ts] of Object.entries(seen)) {
+    if (nowMs - ts > windowMs) delete seen[k];
   }
 
-  const firstSeen = store.seen[key];
+  const firstSeen = seen[key];
   if (firstSeen !== undefined) {
+    store.seen = seen;
     return { duplicate: true, firstSeenAt: new Date(firstSeen).toISOString() };
   }
 
-  store.seen[key] = nowMs;
+  seen[key] = nowMs;
 
   // Hard cap: drop the oldest entries if we are over the limit.
-  const keys = Object.keys(store.seen);
+  const keys = Object.keys(seen);
   if (keys.length > MAX_KEYS) {
     keys
-      .sort((a, b) => store.seen[a] - store.seen[b])
+      .sort((a, b) => seen[a] - seen[b])
       .slice(0, keys.length - MAX_KEYS)
-      .forEach((k) => delete store.seen[k]);
+      .forEach((k) => delete seen[k]);
   }
 
+  store.seen = seen;
   return { duplicate: false, firstSeenAt: new Date(nowMs).toISOString() };
 }
 

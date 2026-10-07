@@ -1,6 +1,6 @@
 # End-to-end test log
 
-Run on 7 Oct 2026 against a real n8n 2.42.4 instance (SQLite, workflows published), using the samples in `/samples` and the stub APIs in `scripts/mock-apis.js`. Unit and structural tests: `npm test` (34 passing).
+Run on 7 Oct 2026 against a real n8n 2.42.4 instance (SQLite, workflows published), using the samples in `/samples` and the stub APIs in `scripts/mock-apis.js`. Unit and structural tests: `npm test` (35 passing).
 
 ## Mock mode (no external services)
 
@@ -27,6 +27,9 @@ Run on 7 Oct 2026 against a real n8n 2.42.4 instance (SQLite, workflows publishe
 | Pipedrive down | Search retried 3 times at 3s intervals, then the error workflow posted "Automation failed … Node: Pipedrive: Search Deal" with a link to the execution |
 
 ## Found and fixed during testing
+
+- **Duplicate blocking only stored the first key.** Found when a repeated test request was accepted instead of blocked. n8n saves static data only when a top-level property is replaced; the original code added keys inside the existing `seen` object, so every key after the first was silently dropped. Fixed by building a new object and assigning `store.seen` each run; regression test added. Re-verified in n8n: three different requests, then each resent, all blocked as duplicates.
+- **Known limit (not fixed):** two requests in the same instant can still lose one key (static data is last-write-wins per execution). Reproduced in n8n. Pipedrive search-before-create remains the hard guard against duplicate deals.
 
 - n8n 2.x will not run an error workflow unless it is published. Setup steps now say to publish all three workflows.
 - n8n 2.x signs resume URLs (`?signature=…`). Approval links now append `&decision=…&token=…` correctly; covered by a unit test.
