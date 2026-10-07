@@ -1,6 +1,6 @@
 # End-to-end test log
 
-Run on 7 Oct 2026 against a real n8n 2.42.4 instance (SQLite, workflows published), using the samples in `/samples` and the stub APIs in `scripts/mock-apis.js`. Unit and structural tests: `npm test` (35 passing).
+Run on 7 Oct 2026 against a real n8n 2.42.4 instance (SQLite, workflows published), using the samples in `/samples` and the stub APIs in `scripts/mock-apis.js`. Unit and structural tests: `npm test` (36 passing).
 
 ## Mock mode (no external services)
 
@@ -25,6 +25,14 @@ Run on 7 Oct 2026 against a real n8n 2.42.4 instance (SQLite, workflows publishe
 | Deal with same reference already exists | Search finds it; no second deal created; "deal already existed, not duplicated" |
 | Approval window expires (set to ~72s for the test) | Resumed by timeout; "expired: nothing sent to the CRM" |
 | Pipedrive down | Search retried 3 times at 3s intervals, then the error workflow posted "Automation failed … Node: Pipedrive: Search Deal" with a link to the execution |
+
+## Live mode (real Pipedrive account)
+
+Run on 7 Oct 2026 with `crmMode: 'live'` and a real Pipedrive API token in n8n Credentials, using the v1 API. The committed `src/config.js` stays in mock mode.
+
+| Scenario | Result |
+|---|---|
+| Approve | Searched Pipedrive for the reference, created deal "[INSP-C4E14E] 12 Collins St, Melbourne" (A$871 ex GST) and added the quote note to it |
 
 ## Found and fixed during testing
 

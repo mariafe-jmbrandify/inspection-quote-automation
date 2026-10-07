@@ -101,9 +101,9 @@ To test the live HTTP paths without real accounts, run `node scripts/mock-apis.j
 npm test
 ```
 
-35 tests cover validation, dedup, AI-output checks (bad JSON, invented codes, ungrounded evidence, quantity caps, truncation), pricing and rounding, approval tokens, CRM dedup and HTML escaping, plus checks that the built workflows are current, every Code node compiles, every branch is wired, and no secrets are in the export.
+36 tests cover validation, dedup, AI-output checks (bad JSON, invented codes, ungrounded evidence, quantity caps, truncation), pricing and rounding, approval tokens, CRM dedup and HTML escaping, plus checks that the built workflows are current, every Code node compiles, every branch is wired, and no secrets are in the export.
 
-The full workflow was also run end to end in n8n 2.42, in mock and live mode against the mock APIs. See [docs/TEST-LOG.md](docs/TEST-LOG.md).
+The full workflow was also run end to end in n8n 2.42, in mock and live mode against the mock APIs. The Pipedrive integration was also tested against a real Pipedrive account on 7 Oct 2026: the workflow searched for the reference, created deal "[INSP-C4E14E] 12 Collins St, Melbourne" (A$871 ex GST) and added the quote note via the v1 API. See [docs/TEST-LOG.md](docs/TEST-LOG.md).
 
 ## Limitations
 
